@@ -1,0 +1,41 @@
+#匯入函式庫
+import requests as r
+import time
+import pandas as pd
+from datetime import datetime,date
+import matplotlib.pyplot as plt
+
+stop=180#暫停秒數
+month=input("請輸入所查詢月份(格式20230305)")#輸入年月份
+number=input("輸入股票代碼")#輸入代碼
+url="https://www.twse.com.tw/exchangeReport/STOCK_DAY?date="+month+"&stockNo="+number#股票網址
+res=r.get(url)#取得連線
+print(res)#確認是否為200(連接成功)
+res.json()#解析json資料
+stock_json=res.json()
+#獲取data
+stock_json["data"]
+stock_df=pd.DataFrame.from_dict(stock_json["data"])
+#獲取fields
+stock_json["fields"]
+stock_df.columns=stock_json["fields"]
+print(stock_df)#輸出成果
+#建立csv檔案在此資料夾
+stock=stock_df
+stock.to_csv("股票.csv")
+#繪製圖表
+stock2=stock_df
+fig=plt.figure(figsize=(30,5))#指定大小
+plt.title("price")
+plt.plot(stock2["日期"],stock2["收盤價"])
+plt.plot(stock2["日期"],stock2["開盤價"])
+plt.legend(["close","open"])
+plt.show()
+#讓程式停止執行3分鐘
+print("倒數計時開始")
+while stop!=0:
+    stop=stop-1
+    print(stop)
+    time.sleep(1)
+else:
+    print("可以繼續了")
