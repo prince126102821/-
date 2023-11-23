@@ -1,0 +1,24 @@
+#匯入函式庫
+import requests as r
+import json
+import time
+import pandas as pd
+from datetime import datetime,date
+import matplotlib.pyplot as plt
+years=input("輸入年")#輸入年
+stratmonth=int(input("請輸入起始月份"))
+endmonth=int(input("輸入終止月份"))
+number=input("輸入股票代碼")#輸入代碼
+for month in range(stratmonth,endmonth+1):
+    monthword=str(month)
+    times=(years+monthword+"01")
+    url="https://www.twse.com.tw/exchangeReport/STOCK_DAY?date="+times+"&stockNo="+number#股票網址
+    res=r.get(url)#取得連線
+    print(res)#確認是否為200(連接成功)
+    res.json()#解析json資料
+    stock_json=res.json()
+    #獲取data
+    stock_json["data"]
+    stock_df=pd.DataFrame.from_dict(stock_json["data"])
+    print(stock_df)
+    time.sleep(4)
