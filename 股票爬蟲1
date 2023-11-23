@@ -1,5 +1,6 @@
 #匯入函式庫
 import requests as r
+import json
 import time
 import pandas as pd
 from datetime import datetime,date
